@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPS Test - Check Clicks Per Second</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); min-height: 100vh; color: white; display: flex; margin: 0; overflow-x: hidden; }
+        
+        /* Sidebar Styles */
+        .sidebar { width: 280px; background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px); border-right: 1px solid rgba(255, 255, 255, 0.1); padding: 2rem 1rem; position: fixed; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem; }
+        .sidebar-link { padding: 0.75rem 1rem; border-radius: 12px; transition: all 0.3s; color: #94a3b8; text-decoration: none; font-weight: 600; }
+        .sidebar-link:hover { background: rgba(255, 255, 255, 0.05); color: white; }
+        .sidebar-link.active { background: #3b82f6; color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
+
+        /* Layout */
+        .main-wrapper { margin-left: 280px; flex: 1; display: flex; flex-direction: column; align-items: center; padding: 2rem; width: calc(100% - 280px); }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; width: 100%; max-width: 700px; }
+        
+        /* Game Styles */
+        .click-area { transition: all 0.1s ease; user-select: none; cursor: pointer; position: relative; overflow: hidden; }
+        .click-area:active { transform: scale(0.98); background: rgba(255, 255, 255, 0.1) !important; }
+        .ripple { position: absolute; background: rgba(255, 255, 255, 0.3); border-radius: 50%; transform: scale(0); animation: ripple-animation 0.4s linear; pointer-events: none; }
+        @keyframes ripple-animation { to { transform: scale(4); opacity: 0; } }
+        
+        /* SEO Section Styles */
+        .seo-section { max-width: 800px; width: 100%; margin-top: 5rem; color: #cbd5e1; line-height: 1.8; }
+        .seo-section h2 { color: #3b82f6; font-size: 1.75rem; font-weight: 800; margin-top: 2.5rem; margin-bottom: 1rem; border-left: 5px solid #3b82f6; padding-left: 1rem; }
+        .seo-section p { margin-bottom: 1.2rem; }
+        .formula-box { background: rgba(59, 130, 246, 0.1); border: 1px dashed #3b82f6; padding: 1.5rem; border-radius: 16px; margin: 1.5rem 0; font-family: monospace; text-align: center; color: #60a5fa; }
+
+        #modal { display: none; }
+        .meme-img { width: 100%; max-height: 180px; object-fit: contain; border-radius: 12px; margin-bottom: 15px; background: rgba(0,0,0,0.2); }
+
+        @media (max-width: 1024px) {
+            .sidebar { width: 220px; }
+            .main-wrapper { margin-left: 220px; width: calc(100% - 220px); }
+        }
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main-wrapper { margin-left: 0; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2 class="text-xl font-bold mb-6 px-4 text-blue-400">CPS MODES</h2>
+        <a href="#" class="sidebar-link active">Home</a>
+        <a href="1s.html" class="sidebar-link">1 Second Test</a>
+        <a href="5s.html" class="sidebar-link">5 Seconds Test</a>
+        <a href="10s.html" class="sidebar-link">10 Seconds Test</a>
+        <a href="15s.html" class="sidebar-link">15 Seconds Test</a>
+        <a href="30s.html" class="sidebar-link">30 Seconds Test</a>
+    </div>
+
+    <div class="main-wrapper">
+        
+        <div class="glass-card p-10 shadow-2xl">
+            <h1 class="text-center text-3xl font-black mb-8 italic tracking-tight">5 SEC <span class="text-blue-500">CHALLENGE</span></h1>
+            <div class="grid grid-cols-2 gap-6 mb-8">
+                <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5 text-center">
+                    <p class="text-xs text-slate-400 uppercase tracking-widest">Time</p>
+                    <p id="timer" class="text-3xl font-bold text-blue-400">5.00s</p>
+                </div>
+                <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5 text-center">
+                    <p class="text-xs text-slate-400 uppercase tracking-widest">Clicks</p>
+                    <p id="count" class="text-3xl font-bold">0</p>
+                </div>
+            </div>
+            <div id="zone" class="click-area h-80 bg-slate-800/40 rounded-3xl flex items-center justify-center border-2 border-dashed border-slate-600 hover:border-blue-500 transition-colors">
+                <p id="hint" class="text-2xl font-bold text-slate-400">Click to Start!</p>
+            </div>
+        </div>
+
+        <div class="seo-section">
+            <h2>What is CPS Test?</h2>
+            <p>The cpstest aka click test is more likely a timepass game where you can set the highest clicks per second score and break others' records too. It allows you to test your finger speed on the mouse to check how speedily you can click on the mouse button.</p>
+
+            <h2>How fast can you click?</h2>
+            <p>Most players at the click speed test managed to click between 5-10 clicks per second. To become the faster in clicks you need to click between 5 to 10 clicks per second. CPS Test defines some ranks upon your clicking speed. But if you want to avoid becoming a turtle then you must click above 5 clicks per second.</p>
+
+            <h2>How do you calculate Clicks Per Second?</h2>
+            <p>Click per second is nothing but calculating the frequency of your clicks. You can calculate your CPS by Dividing your Total Number of Clicks by the time you took for clicking.</p>
+            <div class="formula-box text-xl">
+                CPS = Total Number of Clicks / Total Time in Seconds
+            </div>
+
+            <h2>What is CPS in Minecraft?</h2>
+            <p>In Minecraft PvP, clicking speed is vital. Minecraft itself can only register (Roughly) 2 clicks per second from players, but higher CPS gives you a "Reach" advantage during sprint breaking fights.</p>
+            <ul class="list-disc ml-6 space-y-2">
+                <li><strong>4-7 CPS:</strong> Moderately slow, okay to PvP.</li>
+                <li><strong>8-13 CPS:</strong> Moderately high, complicated PvP mechanics.</li>
+                <li><strong>14+ CPS:</strong> Extremely fast, massive advantage.</li>
+            </ul>
+
+            <h2>What is Kohi Click Test?</h2>
+            <p>The Kohi Click Test is a test used to measure a minecraft player's clicking speed. It is specifically popular in the Minecraft community and is often used on the Minecraft server called Kohi.</p>
+        </div>
+
+        <footer class="mt-20 mb-10 text-slate-500 text-sm">
+            &copy; 2026 CPS Tracker - Professional Speed Tools
+        </footer>
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center z-50 p-4 text-center">
+        <div class="glass-card max-w-sm w-full p-10 border-blue-500/50">
+            <img id="res-meme" src="" class="meme-img" alt="Result">
+            <h2 class="text-xl font-bold mb-2" id="res-rank">Rank</h2>
+            <p class="text-6xl font-black text-blue-500 my-4" id="res-cps">0.0</p>
+            <p class="text-slate-400 text-sm mb-8 uppercase tracking-widest">Clicks Per Second</p>
+            <button onclick="location.reload()" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-blue-500/25">RETRY</button>
+        </div>
+    </div>
+
+    <script>
+        let clicks = 0, duration = 5.0, time = duration, running = false;
+        const zone = document.getElementById('zone'), count = document.getElementById('count'), timer = document.getElementById('timer');
+        
+        zone.onmousedown = (e) => {
+            if (time <= 0) return;
+            const ripple = document.createElement('span'); ripple.className = 'ripple';
+            const rect = zone.getBoundingClientRect();
+            ripple.style.left = (e.clientX - rect.left - 50) + 'px'; ripple.style.top = (e.clientY - rect.top - 50) + 'px';
+            ripple.style.width = ripple.style.height = '100px'; zone.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 400);
+
+            if (!running) {
+                running = true; document.getElementById('hint').innerText = "GO GO GO!";
+                let start = Date.now();
+                let int = setInterval(() => {
+                    time = Math.max(0, (duration * 1000 - (Date.now() - start)) / 1000);
+                    timer.innerText = time.toFixed(2) + 's';
+                    if (time <= 0) { 
+                        clearInterval(int); 
+                        showResult();
+                    }
+                }, 10);
+            }
+            clicks++; count.innerText = clicks;
+        };
+
+        function showResult() {
+            const cps = (clicks / duration).toFixed(1);
+            document.getElementById('res-cps').innerText = cps;
+            const img = document.getElementById('res-meme');
+            const rank = document.getElementById('res-rank');
+            
+              if (cps < 4) { img.src = "slow.gif"; rank.innerText = "Snail 🐌"; }
+            else if (cps < 7) { img.src = "normal.gif"; rank.innerText = "Turtle 🐢"; }
+            else if (cps < 11) { img.src = "fast.gif"; rank.innerText = "Cheetah 🐆"; }
+            else if (cps < 12) { img.src = "god.gif"; rank.innerText = "UNSTOPPABLE ⚡"; }
+            else { img.src = "hacker.gif"; rank.innerText = "HACKER"; }
+            
+            document.getElementById('modal').style.display='flex';
+        }
+    </script>
+</body>
+</html>
