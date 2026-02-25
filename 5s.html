@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CPS Test - 5s</title>
+        <link rel="icon" type="image/x-icon" href="logo.png">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
@@ -58,8 +60,10 @@
             <h2 class="text-xl font-bold mb-2" id="res-rank">Rank</h2>
             <p class="text-6xl font-black text-blue-500 my-4" id="res-cps">0.0</p>
             <p class="text-slate-400 text-sm mb-8 uppercase tracking-widest">Clicks Per Second</p>
-            <button onclick="location.reload()" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-blue-500/25">RETRY</button>
-        </div>
+<button id="retryBtn" 
+        class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed">
+    RETRY
+</button>        </div>
     </div>
 
     <script>
@@ -89,20 +93,33 @@
             clicks++; count.innerText = clicks;
         };
 
-        function showResult() {
-            const cps = (clicks / duration).toFixed(1);
-            document.getElementById('res-cps').innerText = cps;
-            const img = document.getElementById('res-meme');
-            const rank = document.getElementById('res-rank');
-            
-              if (cps < 4) { img.src = "slow.gif"; rank.innerText = "Turtle 🐢"; }
-            else if (cps < 7) { img.src = "normal.gif"; rank.innerText = "Normal 👍"; }
-            else if (cps < 11) { img.src = "fast.gif"; rank.innerText = "Cheetah 🐆"; }
-            else if (cps < 12) { img.src = "god.gif"; rank.innerText = "UNSTOPPABLE ⚡"; }
-            else { img.src = "hacker.gif"; rank.innerText = "HACKER"; }
-            
-            document.getElementById('modal').style.display='flex';
-        }
+function showResult() {
+    const cps = (clicks / duration).toFixed(1);
+    document.getElementById('res-cps').innerText = cps;
+    const img = document.getElementById('res-meme');
+    const rank = document.getElementById('res-rank');
+    const retryBtn = document.getElementById('retryBtn');
+
+    if (cps < 4) { img.src = "slow.gif"; rank.innerText = "Snail 🐌"; }
+    else if (cps < 7) { img.src = "normal.gif"; rank.innerText = "Normal 👍"; }
+    else if (cps < 11) { img.src = "fast.gif"; rank.innerText = "Cheetah 🐆"; }
+    else if (cps < 12) { img.src = "god.gif"; rank.innerText = "UNSTOPPABLE ⚡"; }
+    else { img.src = "hacker.gif"; rank.innerText = "HACKER"; }
+
+    document.getElementById('modal').style.display = 'flex';
+
+    // 🔒 Tugmani 2 sekundga bloklaymiz
+    retryBtn.disabled = true;
+
+    setTimeout(() => {
+        retryBtn.disabled = false;
+    }, 2000);
+
+    // Reload faqat bosilganda ishlaydi
+    retryBtn.onclick = () => {
+        location.reload();
+    };
+}
     </script>
 </body>
 </html>
