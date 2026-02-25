@@ -89,14 +89,14 @@
             clicks++; count.innerText = clicks;
         };
 
-        function showResult() {
+      function showResult() {
             const cps = (clicks / duration).toFixed(1);
             document.getElementById('res-cps').innerText = cps;
             const img = document.getElementById('res-meme');
             const rank = document.getElementById('res-rank');
             
-            if (cps < 4) { img.src = "slow.gif"; rank.innerText = "Snail 🐌"; }
-            else if (cps < 7) { img.src = "normal.gif"; rank.innerText = "Turtle 🐢"; }
+              if (cps < 4) { img.src = "slow.gif"; rank.innerText = "Turtle 🐢"; }
+            else if (cps < 7) { img.src = "normal.gif"; rank.innerText = "Normal 👍"; }
             else if (cps < 11) { img.src = "fast.gif"; rank.innerText = "Cheetah 🐆"; }
             else if (cps < 12) { img.src = "god.gif"; rank.innerText = "UNSTOPPABLE ⚡"; }
             else { img.src = "hacker.gif"; rank.innerText = "HACKER"; }
